@@ -1,5 +1,6 @@
 import pandas as pd 
 import os
+from config import data_check_path,data_prod_path,root_dir
 
 
 def find_file_dirs(file_dir):
@@ -33,31 +34,24 @@ def find_csv_file(csv_path,dotname='csv'):
 		return True,sorted(L)
 
 
-def init_path(root_dir,event_length):
+def init_path(event_length):
 	"""
-	:param root_dir:
 	:param event_length:
 	:return:
 	"""
-
-	data_prod_path = root_dir+'data_prod/'
 	print(data_prod_path)
-
-	data_orig_path = root_dir+'data_check/'
-	print(data_orig_path)
+	print(data_check_path)
 
 	name_app = root_dir+'result_event_length_'+str(event_length)+'/'
 	print(name_app)
 	if not os.path.exists(name_app):
 		os.makedirs(name_app)
 
-	return data_prod_path,data_orig_path,name_app	
+	return name_app
 
 
-def data_prepare(data_prod_path,data_orig_path,name_app,event_length):
+def data_prepare(name_app,event_length):
 	"""
-	:param data_prod_path:
-	:param data_orig_path:
 	:param name_app:
 	:param event_length:
 	:return:
@@ -68,10 +62,7 @@ def data_prepare(data_prod_path,data_orig_path,name_app,event_length):
 	alpha_name = ['alpha','0.5']
 	lambda_name = ['lambda','1.5']
 
-	state_flag = True
-
-	dirs_list  = find_file_dirs(data_prod_path)
-
+	dirs_list = find_file_dirs(data_prod_path)
 	data_results = pd.DataFrame()
 
 	for dir_name in dirs_list:
@@ -104,7 +95,7 @@ def data_prepare(data_prod_path,data_orig_path,name_app,event_length):
 
 				# print(data.head())
 
-			data_orig = pd.read_csv(data_orig_path+Car_ID+'/'+dir_name.split('/')[-1]+'.csv')
+			data_orig = pd.read_csv(data_check_path+Car_ID+'/'+dir_name.split('/')[-1]+'.csv')
 			data_result = pd.merge(data_orig,data_app,on = ['Time'],how='left')
 			# standard of acd
 			
@@ -118,7 +109,6 @@ def data_prepare(data_prod_path,data_orig_path,name_app,event_length):
 
 		else:
 			continue
-
 
 	data_results['is_acp'] = data_results['ds_total'].map(lambda x:1 if x>=top5_ds else 0)
 	
@@ -167,11 +157,10 @@ def main():
 	"""
 	:return:
 	"""
-	
 	event_length = 10000
-	root_dir = '/Users/xingqiangchen/Desktop/2019-02-22/'
-	data_prod_path,data_orig_path,name_app = init_path(root_dir,event_length=event_length)
-	data_prepare(data_prod_path,data_orig_path,name_app,event_length)
+	
+	name_app = init_path(event_length=event_length)
+	data_prepare(name_app,event_length)
 
 
 if __name__ == '__main__':

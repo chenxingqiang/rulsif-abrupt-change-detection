@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from config import data_path,data_check_path
 
 
 def Less_Than(seq):
@@ -26,11 +27,9 @@ def detectSeqChange(seq):
     return [0] + sorted(scp) + [len(seq)]
 
 
-def pre_process(data_name, data_path, data_save_path):
+def pre_process(data_name):
     """
     :param data_name:
-    :param data_path:
-    :param data_save_path:
     :return:
     """
     for name in data_name:
@@ -57,7 +56,7 @@ def pre_process(data_name, data_path, data_save_path):
 
         print(' ####' * 12 + ' CHECKING LIST !!! ' + 12 * '#### ')
         file_name = name.strip('.csv')
-        save_path = data_save_path + file_name + '/'
+        save_path = data_check_path + file_name + '/'
         print(save_path)
 
         if not os.path.exists(save_path):
@@ -106,12 +105,6 @@ def main():
     :return:
     """
     # data load
-    data_path = '/Users/xingqiangchen/Desktop/2019-02-22/data/'
-    data_save_path = '/Users/xingqiangchen/Desktop/2019-02-22/data_check/'
-
-    if not os.path.exists(data_save_path):
-        os.makedirs(data_save_path)
-
     data_name = ['10.csv', '56.csv', '64.csv', '72.csv', '84.csv',
                  '11.csv', '56_0.csv', '64_0.csv', '73.csv', '85.csv',
                  '12.csv', '57.csv', '65.csv', '74.csv', '86.csv',
@@ -122,7 +115,7 @@ def main():
                  '52.csv', '63.csv', '70.csv', '82.csv',
                  '55.csv', '63_2.csv', '71.csv', '83.csv']
 
-    pre_process(data_name, data_path, data_save_path)
+    pre_process(data_name)
 
 
 if __name__ == '__main__':

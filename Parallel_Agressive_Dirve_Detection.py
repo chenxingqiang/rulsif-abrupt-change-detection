@@ -6,6 +6,7 @@ from rulsif import RULSIF
 from concurrent.futures import ThreadPoolExecutor, wait
 _executor_pool = ThreadPoolExecutor(max_workers=32)
 
+from config import data_check_path,data_prod_path
 
 # data load
 # make Hankel Matrix
@@ -29,9 +30,7 @@ def parse_arguments(argv):
     parser.add_argument('--int_start', type=str, help='the start of starting prediction.', default='0')
     parser.add_argument('--int_end', type=str, help='the end of starting prediction.', default='')
     parser.add_argument('--MPI', type=bool, help='if or not use MPI.', default=False)
-    parser.add_argument('--save_dir', type=str, help='data save dir.if test==1,should be given.', default='./data/')
-    parser.add_argument('--database_dir', type=str, help='database dir.if test==1, should be given. ',
-                        default='./prod/')
+    
     parser.add_argument('--test', type=int, help='if or not test.', default=0)
     parser.add_argument('--n', type=int, help='length of time window .', default=150)
     parser.add_argument('--k', type=int, help='sub sequence', default=30)
@@ -102,13 +101,13 @@ def condition_time_series(condition, before_Times, feature_name):
 
 class task():
 
-    def __init__(self, data_name_list, data_save_path):
+    def __init__(self, data_name_list, data_check_path):
         """
         :param data_name_list:
-        :param data_save_path:
+        :param data_check_path:
         """
         self.data_name_list = data_name_list
-        self.data_save_path = data_save_path
+        self.data_check_path = data_check_path
 
     def calatetion_all(self, data, save_path):
         """
@@ -159,7 +158,7 @@ class task():
             else:
                 print('TEST NOT OK: ', 'Car ID: ', car_ID, '  ', 'Feature Name: ', feature_name, '::',
                       'Test Time Interval:', Hankel_Seq.iloc[i + 1, 1], Hankel_Seq.iloc[i + n, 1])
-                result.append([Hankel_Seq.iloc[i + n, 1], 'NOT_FULLFILLMENT'])
+                result.append([Hankel_Seq.iloc[i + n, 1], 'NOT_FULFILLMENT'])
 
         return result
 
@@ -171,7 +170,7 @@ class task():
         for name in self.data_name_list:
             print(name)
             file_name = name.split('/')[-1].strip('.csv')
-            save_path = self.data_save_path + file_name + '/'
+            save_path = self.data_check_path + file_name + '/'
 
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
@@ -225,84 +224,69 @@ def check_name(file_dir, dotname='csv', fileType='OrderRight'):
 
 
 def main():
-    global data_name, data_save_path, data_name_update
+    global data_name, data_name_update
     start = int(parse_arguments(sys.argv[1:]).int_start)
     end = int(parse_arguments(sys.argv[1:]).int_end)
     MPI = parse_arguments(sys.argv[1:]).MPI
-    test = parse_arguments(sys.argv[1:]).test
+
     restart = parse_arguments(sys.argv[1:]).restart
 
-    if test == 1:
-        data_save_path = parse_arguments(sys.argv[1:]).save_dir
-        data_path = parse_arguments(sys.argv[1:]).database_dir
-        data_name = find_name(data_path, dotname='csv', fileType='OrderRight')
-        print('The Total Number of Files: ', len(data_name))
+    data_name = find_name(data_check_path, dotname='csv', fileType='OrderRight')
+    print('The Total Number of Files: ', len(data_name))
 
-        if restart:
-            data_prod_path = data_save_path
-            data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
-            data_name_set = set( data_name )
-            data_prod_list = [x.split('/')[-2] for x in data_prod]
-            data_prod_counter = Counter(data_prod_list)
+    if restart:
+        data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
+        data_name_set = set( data_name )
+        data_prod_list = [x.split('/')[-2] for x in data_prod]
+        data_prod_counter = Counter(data_prod_list)
 
-            exist_name = []
-            for item in data_prod_counter.keys():
-                if data_prod_counter[item]>=4:
-                    exist_name.append(os.path.join(data_path,item.split('_')[1],item+'.csv'))
+        exist_name = []
+        for item in data_prod_counter.keys():
+            if data_prod_counter[item]>=4:
+                exist_name.append(os.path.join(data_prod_path,item.split('_')[1],item+'.csv'))
 
-            exist_name_set = set(exist_name)
+        exist_name_set = set(exist_name)
 
-            print(len(exist_name_set))
-            print(len(data_name_set))
-            data_name_update = list(data_name_set.difference(exist_name_set))
-            print(len(data_name_update))
+        print(len(exist_name_set))
+        print(len(data_name_set))
+        data_name_update = list(data_name_set.difference(exist_name_set))
+        print(len(data_name_update))
+
+        if MPI:
+            data_name_run = data_name_update[start:end]
+            future_objs = []
+            num = len(data_name_run)
+            for i in range(num):
+                future_objs.append(task([data_name[i]], data_check_path))
+
+            future_object = []
+            for i in range(num):
+                obj = _executor_pool.submit(MPI_task, future_objs[i])
+                future_object.append(obj)
+            # wait for all job finished!
+            wait(future_object)
+
         else:
-            pass
-
-    elif test == 0:
-        data_save_path = '/Users/xingqiangchen/Desktop/2019-02-22/data_prod/'
-        data_path = '/Users/xingqiangchen/Desktop/2019-02-22/data_check/'
-        data_name = find_name(data_path, dotname='csv', fileType='OrderRight')
-        print('The Total Number of Files: ', len(data_name))
-
-        if restart:
-            data_prod_path = data_save_path
-            data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
-            data_name_set = set(data_name)
-            data_prod_list = [x.split('/')[-2] for x in data_prod]
-            data_prod_counter = Counter(data_prod_list)
-
-            exist_name = []
-            for item in data_prod_counter.keys():
-                if data_prod_counter[item] >= 4:
-                    exist_name.append(os.path.join(data_path,item.split('_')[1],item+'.csv'))
-
-            exist_name_set = set(exist_name)
-
-            print(len(exist_name_set))
-            print(len(data_name_set))
-            data_name_update = list(data_name_set.difference(exist_name_set))
-            print(len(data_name_update))
-        else:
-            pass
-
-    if MPI:
-        data_name_run = data_name_update[start:end]
-        future_objs = []
-        num = len(data_name_run)
-        for i in range(num):
-            future_objs.append(task([data_name[i]], data_save_path))
-
-        future_object = []
-        for i in range(num):
-            obj = _executor_pool.submit(MPI_task, future_objs[i])
-            future_object.append(obj)
-        # wait for all job finished!
-        wait(future_object)
-
+            data_name_list = data_name_update[start:end]
+            task(data_name_list,data_check_path)
     else:
-        data_name_list = data_name_update[start:end]
-        task(data_name_list,data_save_path)
+        if MPI:
+            data_name_run = data_name_update[start:end]
+            future_objs = []
+            num = len(data_name_run)
+            for i in range(num):
+                future_objs.append(task([data_name[i]], data_check_path))
+
+            future_object = []
+            for i in range(num):
+                obj = _executor_pool.submit(MPI_task, future_objs[i])
+                future_object.append(obj)
+            # wait for all job finished!
+            wait(future_object)
+
+        else:
+            data_name_list = data_name_update[start:end]
+            task(data_name_list,data_check_path)
 
 
 if __name__ == '__main__':
