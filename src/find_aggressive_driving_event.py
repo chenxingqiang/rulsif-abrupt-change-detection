@@ -1,6 +1,7 @@
 import pandas as pd 
 import os
-from src.config import data_check_path,data_prod_path,root_dir
+from src.config import data_check_path,data_prod_path,\
+	root_dir,event_length
 
 
 def find_file_dirs(file_dir):
@@ -153,18 +154,16 @@ def save_event(data,name_app):
 	print('*****  SAVE DRIVE EVENT INDEX AS '+name_app+'drive_event_index.csv'+' *****')
 
 
-def main():
+def find_event():
 	"""
 	:return:
 	"""
-	event_length = 10000
-	
 	name_app = init_path(event_length=event_length)
 	data_prepare(name_app,event_length)
 
 
 if __name__ == '__main__':
-	main()
+	find_event()
 	
 
 

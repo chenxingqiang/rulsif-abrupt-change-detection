@@ -30,3 +30,13 @@ settings = {'--alpha': 0.5, "--sigma": None, '--lambda': 1.5, '--kernels': 100, 
 n = 150
 # sequence length 3s equals 30*100ms
 before_Times = 30
+
+# define event length
+event_length = 10000
+
+# detection aggressive events settings
+
+start = 0
+end = 2000
+MPI = True
+restart = True

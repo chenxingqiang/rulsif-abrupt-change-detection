@@ -3,7 +3,8 @@ import numpy as np
 import os, argparse, sys
 from collections import Counter
 from src.rulsif import RULSIF
-from src.config import data_check_path,data_prod_path,settings,before_Times,n
+from src.config import data_check_path,data_prod_path,\
+    settings,before_Times,n,MPI,restart,start,end
 
 from concurrent.futures import ThreadPoolExecutor, wait
 _executor_pool = ThreadPoolExecutor(max_workers=32)
@@ -16,8 +17,8 @@ def parse_arguments(argv):
     """
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--int_start', type=str, help='the start of starting prediction.', default='0')
-    parser.add_argument('--int_end', type=str, help='the end of starting prediction.', default='')
+    parser.add_argument('--int_start', type=str, help='the start of detection task.', default='0')
+    parser.add_argument('--int_end', type=str, help='the end of detection task.', default='')
     parser.add_argument('--MPI', type=bool, help='if or not use MPI.', default=False)
     parser.add_argument('--restart', type=bool, help='if or not restart of task', default=False)
 
@@ -116,7 +117,7 @@ class task(object):
             save_data.columns = ['Time', 'divergence_score']
             save_data.to_csv(save_path + car_ID + '_' + feature_name + '_alpha_' + alpha + '_lambda_' + lam + '.csv')
 
-        # del Hankel_Seq,codition,save_data
+        # del Hankel_Seq,condition,save_data
 
     def re(self, Hankel_Seq, feature_name, car_ID):
         """
@@ -208,13 +209,8 @@ def check_name(file_dir, dotname='csv', fileType='OrderRight'):
     return L
 
 
-def main():
+def apply_detection():
     global data_name, data_name_update
-    start = int(parse_arguments(sys.argv[1:]).int_start)
-    end = int(parse_arguments(sys.argv[1:]).int_end)
-    MPI = parse_arguments(sys.argv[1:]).MPI
-
-    restart = parse_arguments(sys.argv[1:]).restart
 
     data_name = find_name(data_check_path, dotname='csv', fileType='OrderRight')
     print('The Total Number of Files: ', len(data_name))
@@ -275,4 +271,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    apply_detection()

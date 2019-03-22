@@ -27,7 +27,7 @@ def detectSeqChange(seq):
     return [0] + sorted(scp) + [len(seq)]
 
 
-def pre_process(data_name):
+def preprocess(data_name):
     """
     :param data_name:
     :return:
@@ -100,13 +100,13 @@ def pre_process(data_name):
                     print('OrderError!! LessLength!! for {} '.format(i) * 8)
 
 
-def main():
+def apply_preprocess():
     """
     :return:
     """
     # data load
-    pre_process(data_name)
+    preprocess(data_name)
 
 
 if __name__ == '__main__':
-    main()
+    apply_preprocess()
