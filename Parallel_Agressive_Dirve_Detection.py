@@ -254,7 +254,7 @@ def main():
 
             print(len(exist_name_set))
             print(len(data_name_set))
-            data_name_update = data_name_set.difference(exist_name_set)
+            data_name_update = list(data_name_set.difference(exist_name_set))
             print(len(data_name_update))
         else:
             pass
@@ -268,20 +268,20 @@ def main():
         if restart:
             data_prod_path = data_save_path
             data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
-            data_name_set = set( data_name )
+            data_name_set = set(data_name)
             data_prod_list = [x.split('/')[-2] for x in data_prod]
             data_prod_counter = Counter(data_prod_list)
 
             exist_name = []
             for item in data_prod_counter.keys():
-                if data_prod_counter[item]>=4:
+                if data_prod_counter[item] >= 4:
                     exist_name.append(os.path.join(data_path,item.split('_')[1],item+'.csv'))
 
             exist_name_set = set(exist_name)
 
             print(len(exist_name_set))
             print(len(data_name_set))
-            data_name_update = data_name_set.difference(exist_name_set)
+            data_name_update = list(data_name_set.difference(exist_name_set))
             print(len(data_name_update))
         else:
             pass
