@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from config import data_path,data_check_path
+from config import data_path,data_check_path,data_name
 
 
 def Less_Than(seq):
@@ -105,16 +105,6 @@ def main():
     :return:
     """
     # data load
-    data_name = ['10.csv', '56.csv', '64.csv', '72.csv', '84.csv',
-                 '11.csv', '56_0.csv', '64_0.csv', '73.csv', '85.csv',
-                 '12.csv', '57.csv', '65.csv', '74.csv', '86.csv',
-                 '40.csv', '60.csv', '66.csv', '77.csv', '87.csv',
-                 '45.csv', '60_0.csv', '67.csv', '78.csv', '89.csv',
-                 '50.csv', '61.csv', '68.csv', '80.csv',
-                 '51.csv', '62.csv', '69.csv', '81.csv',
-                 '52.csv', '63.csv', '70.csv', '82.csv',
-                 '55.csv', '63_2.csv', '71.csv', '83.csv']
-
     pre_process(data_name)
 
 

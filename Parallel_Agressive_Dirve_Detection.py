@@ -3,21 +3,10 @@ import numpy as np
 import os, argparse, sys
 from collections import Counter
 from rulsif import RULSIF
+from config import data_check_path,data_prod_path,settings,before_Times,n
+
 from concurrent.futures import ThreadPoolExecutor, wait
 _executor_pool = ThreadPoolExecutor(max_workers=32)
-
-from config import data_check_path,data_prod_path
-
-# data load
-# make Hankel Matrix
-# sample length 150s  n = 1500
-n = 150
-# sequence length 3s equals 30*100ms
-k = 30
-
-settings = {'--alpha': 0.5, "--sigma": None, '--lambda': 1.5, '--kernels': 100, '--folds': 5, '--debug': None}
-
-before_Times = k
 
 
 def parse_arguments(argv):
@@ -30,10 +19,6 @@ def parse_arguments(argv):
     parser.add_argument('--int_start', type=str, help='the start of starting prediction.', default='0')
     parser.add_argument('--int_end', type=str, help='the end of starting prediction.', default='')
     parser.add_argument('--MPI', type=bool, help='if or not use MPI.', default=False)
-    
-    parser.add_argument('--test', type=int, help='if or not test.', default=0)
-    parser.add_argument('--n', type=int, help='length of time window .', default=150)
-    parser.add_argument('--k', type=int, help='sub sequence', default=30)
     parser.add_argument('--restart', type=bool, help='if or not restart of task', default=False)
 
     return parser.parse_args(argv)
@@ -99,7 +84,7 @@ def condition_time_series(condition, before_Times, feature_name):
     return before_data
 
 
-class task():
+class task(object):
 
     def __init__(self, data_name_list, data_check_path):
         """
@@ -109,7 +94,7 @@ class task():
         self.data_name_list = data_name_list
         self.data_check_path = data_check_path
 
-    def calatetion_all(self, data, save_path):
+    def calculation_all(self, data, save_path):
         """
         :param data:
         :param save_path:
@@ -183,7 +168,7 @@ class task():
             print("Driving Car ID Set:", set(data.Car_ID))
             data = data.reset_index().drop(['index'], axis=1)
 
-            self.calatetion_all(data, save_path)
+            self.calculation_all(data, save_path)
 
 
 def find_name(file_dir, dotname='csv', fileType='OrderRight'):
@@ -271,7 +256,7 @@ def main():
             task(data_name_list,data_check_path)
     else:
         if MPI:
-            data_name_run = data_name_update[start:end]
+            data_name_run = data_name[start:end]
             future_objs = []
             num = len(data_name_run)
             for i in range(num):
