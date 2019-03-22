@@ -35,8 +35,9 @@ before_Times = 30
 event_length = 10000
 
 # detection aggressive events settings
+first_time = False
 
 start = 0
-end = 2000
+end = 1   # in total there are 4490
 MPI = True
 restart = True

@@ -51,7 +51,7 @@ def init_path(event_length):
 	return name_app
 
 
-def data_prepare(name_app,event_length):
+def data_prepare(name_app):
 	"""
 	:param name_app:
 	:param event_length:
@@ -83,6 +83,8 @@ def data_prepare(name_app,event_length):
 				Car_ID = data_path.split('.')[0].split('/')[-1].split('_')[0]
 				data = pd.read_csv(data_path).iloc[:, 1:]
 				data = data.replace('NOT_FULFILLMENT', 0.0)
+				data = data.replace('NOT_FULLFILLMENT', 0.0)
+
 				data['divergence_score'] = data['divergence_score'].astype(float)
 
 				data.columns = ['Time', 'divergence_score_' + str(feature_name_app)]
@@ -115,7 +117,7 @@ def data_prepare(name_app,event_length):
 	
 	data_results = data_results.reset_index().drop(['index'],axis=1)
 	data_results.to_csv(os.path.join(name_app,'drive_event_result.csv'))
-	print('***** SAVING ORIGINAL EVENT DATA AS '+name_app+'drive_event_result.csv'+'*****')
+	print('***** SAVING ORIGINAL EVENT DATA AS '+os.path.join(name_app,'drive_event_result.csv')+'  *****')
 	save_event(data_results,name_app)
 
 
@@ -150,7 +152,7 @@ def save_event(data,name_app):
 	event_df.columns = ['start_index', 'end_index']
 
 	event_df.to_csv(os.path.join(name_app, 'drive_event_index.csv'))
-	print('*****  SAVE DRIVE EVENT INDEX AS '+name_app+'drive_event_index.csv'+' *****')
+	print('*****  SAVE DRIVE EVENT INDEX AS '+os.path.join(name_app,'drive_event_index.csv')+' *****')
 
 
 def find_event():
@@ -158,7 +160,7 @@ def find_event():
 	:return:
 	"""
 	name_app = init_path(event_length=event_length)
-	data_prepare(name_app,event_length)
+	data_prepare(name_app)
 
 
 if __name__ == '__main__':
