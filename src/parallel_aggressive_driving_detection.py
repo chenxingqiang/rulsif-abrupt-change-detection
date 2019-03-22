@@ -10,21 +10,6 @@ from concurrent.futures import ThreadPoolExecutor, wait
 _executor_pool = ThreadPoolExecutor(max_workers=32)
 
 
-def parse_arguments(argv):
-    """
-    :param argv:
-    :return:
-    """
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument('--int_start', type=str, help='the start of detection task.', default='0')
-    parser.add_argument('--int_end', type=str, help='the end of detection task.', default='')
-    parser.add_argument('--MPI', type=bool, help='if or not use MPI.', default=False)
-    parser.add_argument('--restart', type=bool, help='if or not restart of task', default=False)
-
-    return parser.parse_args(argv)
-
-
 def calculate_divergence_score(X_reference, X_test, settings):
     """
     :param X_reference:
@@ -87,13 +72,13 @@ def condition_time_series(condition, before_Times, feature_name):
 
 class task(object):
 
-    def __init__(self, data_name_list, data_check_path):
+    def __init__(self, data_name_list):
         """
         :param data_name_list:
         :param data_check_path:
         """
         self.data_name_list = data_name_list
-        self.data_check_path = data_check_path
+        self.data_prod_path = data_prod_path
 
     def calculation_all(self, data, save_path):
         """
@@ -115,11 +100,12 @@ class task(object):
             save_data = pd.DataFrame(result)
 
             save_data.columns = ['Time', 'divergence_score']
-            save_data.to_csv(save_path + car_ID + '_' + feature_name + '_alpha_' + alpha + '_lambda_' + lam + '.csv')
+            save_data.to_csv(os.path.join(save_path, car_ID + '_' + feature_name + '_alpha_' + alpha + '_lambda_' + lam + '.csv'))
 
         # del Hankel_Seq,condition,save_data
 
-    def re(self, Hankel_Seq, feature_name, car_ID):
+    @staticmethod
+    def re(Hankel_Seq, feature_name, car_ID):
         """
         :param Hankel_Seq:
         :param feature_name:
@@ -156,8 +142,8 @@ class task(object):
         for name in self.data_name_list:
             print(name)
             file_name = name.split('/')[-1].strip('.csv')
-            save_path = self.data_check_path + file_name + '/'
-
+            save_path = os.path.join(self.data_prod_path,file_name)
+            print(save_path)
             if not os.path.exists(save_path):
                 os.makedirs(save_path)
 
@@ -238,7 +224,7 @@ def apply_detection():
             future_objs = []
             num = len(data_name_run)
             for i in range(num):
-                future_objs.append(task([data_name[i]], data_check_path))
+                future_objs.append(task([data_name[i]]))
 
             future_object = []
             for i in range(num):
@@ -249,14 +235,14 @@ def apply_detection():
 
         else:
             data_name_list = data_name_update[start:end]
-            task(data_name_list,data_check_path)
+            task(data_name_list)
     else:
         if MPI:
             data_name_run = data_name[start:end]
             future_objs = []
             num = len(data_name_run)
             for i in range(num):
-                future_objs.append(task([data_name[i]], data_check_path))
+                future_objs.append(task([data_name[i]]))
 
             future_object = []
             for i in range(num):
@@ -267,7 +253,7 @@ def apply_detection():
 
         else:
             data_name_list = data_name_update[start:end]
-            task(data_name_list,data_check_path)
+            task(data_name_list)
 
 
 if __name__ == '__main__':

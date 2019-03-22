@@ -152,7 +152,7 @@ def save_event(data,name_app):
 	event_df.columns = ['start_index', 'end_index']
 
 	event_df.to_csv(os.path.join(name_app, 'drive_event_index.csv'))
-	print('*****  SAVE DRIVE EVENT INDEX AS '+os.path.join(name_app,'drive_event_index.csv')+' *****')
+	print('*****  SAVING DRIVE EVENT INDEX AS '+os.path.join(name_app,'drive_event_index.csv')+' *****')
 
 
 def find_event():
@@ -165,14 +165,3 @@ def find_event():
 
 if __name__ == '__main__':
 	find_event()
-	
-
-
-
-
-
-
-	
-	
-	
-   

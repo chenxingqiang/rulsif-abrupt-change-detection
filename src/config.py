@@ -1,9 +1,10 @@
 
-import os
+import os,argparse
+
 root_dir = '/Users/xingqiangchen/Desktop/2019-02-22/'
 
 data_path = os.path.join(root_dir, 'data')
-data_check_path = os.path.join(root_dir ,'data_check')
+data_check_path = os.path.join(root_dir,'data_check')
 data_prod_path = os.path.join(root_dir ,'data_prod')
 
 if not os.path.exists(data_check_path):
@@ -38,6 +39,22 @@ event_length = 10000
 first_time = False
 
 start = 0
-end = 1   # in total there are 4490
+end = 2   # in total there are 4490
 MPI = True
 restart = True
+
+
+def parse_arguments(argv):
+    """
+    :param argv:
+    :return:
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--int_start', type=str, help='the start of detection task.', default='0')
+    parser.add_argument('--int_end', type=str, help='the end of detection task.', default='')
+    parser.add_argument('--MPI', type=bool, help='if or not use MPI.', default=False)
+    parser.add_argument('--restart', type=bool, help='if or not restart of task', default=False)
+
+    return parser.parse_args(argv)
+
