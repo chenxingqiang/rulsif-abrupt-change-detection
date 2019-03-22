@@ -33,7 +33,7 @@ def preprocess(data_name):
     :return:
     """
     for name in data_name:
-        data = pd.read_csv(data_path + name, index_col=None, low_memory=False)
+        data = pd.read_csv(os.path.join(data_path,name), index_col=None, low_memory=False)
         print("Driving Car ID Set:", set(data.ID))
         data = data.reset_index().drop(['index'], axis=1)
         data.columns = ['Car_ID', 'Time', 'Car_Orientation', 'Pitch_Rate', 'Roll_Rate', 'Acceleration', 'Velocity',
@@ -56,7 +56,7 @@ def preprocess(data_name):
 
         print(' ####' * 12 + ' CHECKING LIST !!! ' + 12 * '#### ')
         file_name = name.strip('.csv')
-        save_path = data_check_path + file_name + '/'
+        save_path = os.path.join(data_check_path, file_name)
         print(save_path)
 
         if not os.path.exists(save_path):
@@ -68,8 +68,8 @@ def preprocess(data_name):
 
                 flag = Less_Than(seq)
                 if flag:
-                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(
-                        save_path + 'OrderRight_' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv')
+                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(os.path.join(
+                        save_path,'OrderRight_' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv'))
                     print('save ok for {} '.format(i))
 
                 if not flag:
@@ -79,24 +79,24 @@ def preprocess(data_name):
                         print(scp[i - 1], scp[i])
                         if scp[i] > 151:
                             print('SCP WORKING', scp)
-                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(
-                                save_path + 'OrderRight_' + name.strip('.csv') + '_' + str(i).zfill(
-                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv')
+                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(os.path.join(
+                                save_path , 'OrderRight_' + name.strip('.csv') + '_' + str(i).zfill(
+                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv'))
 
                         else:
                             print('seq is less length at starting')
-                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(
-                                save_path + 'LessLength_' + name.strip('.csv') + '_' + str(i).zfill(
-                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv')
+                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(os.path.join(
+                                save_path, 'LessLength_' + name.strip('.csv') + '_' + str(i).zfill(
+                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv'))
 
             else:
                 if Less_Than(list(seq)):
-                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(
-                        save_path + 'LessLength' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv')
+                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(os.path.join(
+                        save_path , 'LessLength' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv'))
                     print('LessLength!! {} '.format(i))
                 else:
-                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(
-                        save_path + 'LessLength_' + 'OrderError_' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv')
+                    data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(os.path.join(
+                        save_path , 'LessLength_' + 'OrderError_' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv'))
                     print('OrderError!! LessLength!! for {} '.format(i) * 8)
 
 
