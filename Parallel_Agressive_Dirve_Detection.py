@@ -1,10 +1,11 @@
 import pandas as pd
 import numpy as np
 import os, argparse, sys
+from collections import Counter
 from rulsif import RULSIF
 from concurrent.futures import ThreadPoolExecutor, wait
-
 _executor_pool = ThreadPoolExecutor(max_workers=32)
+
 
 # data load
 # make Hankel Matrix
@@ -205,13 +206,26 @@ def MPI_task(tasker):
     tasker.apply()
 
 
-def check_task():
+def check_name(file_dir, dotname='csv', fileType='OrderRight'):
     """
+    :param file_dir:
+    :param dotname:
+    :param fileType:
     :return:
     """
 
+    L = []
+    for root, dirs, files in os.walk(file_dir):
+        for file in files:
+
+            if file.split('.')[-1] == dotname and file[-24:-4] == fileType:
+
+                L.append(os.path.join(root, file))
+    return L
+
+
 def main():
-    global data_name, data_save_path
+    global data_name, data_save_path, data_name_update
     start = int(parse_arguments(sys.argv[1:]).int_start)
     end = int(parse_arguments(sys.argv[1:]).int_end)
     MPI = parse_arguments(sys.argv[1:]).MPI
@@ -225,11 +239,25 @@ def main():
         print('The Total Number of Files: ', len(data_name))
 
         if restart:
-            check_set = set(check_task())
-            data_name = list(set(data_name).difference(check_set))
+            data_prod_path = data_save_path
+            data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
+            data_name_set = set( data_name )
+            data_prod_list = [x.split('/')[-2] for x in data_prod]
+            data_prod_counter = Counter(data_prod_list)
+
+            exist_name = []
+            for item in data_prod_counter.keys():
+                if data_prod_counter[item]>=4:
+                    exist_name.append(os.path.join(data_path,item.split('_')[1],item+'.csv'))
+
+            exist_name_set = set(exist_name)
+
+            print(len(exist_name_set))
+            print(len(data_name_set))
+            data_name_update = data_name_set.difference(exist_name_set)
+            print(len(data_name_update))
         else:
             pass
-
 
     elif test == 0:
         data_save_path = '/Users/xingqiangchen/Desktop/2019-02-22/data_prod/'
@@ -238,13 +266,28 @@ def main():
         print('The Total Number of Files: ', len(data_name))
 
         if restart:
-            check_set = set(check_task())
-            data_name = list(set(data_name).difference(check_set))
+            data_prod_path = data_save_path
+            data_prod = check_name(data_prod_path, dotname='csv', fileType='alpha_0.5_lambda_1.5')
+            data_name_set = set( data_name )
+            data_prod_list = [x.split('/')[-2] for x in data_prod]
+            data_prod_counter = Counter(data_prod_list)
+
+            exist_name = []
+            for item in data_prod_counter.keys():
+                if data_prod_counter[item]>=4:
+                    exist_name.append(os.path.join(data_path,item.split('_')[1],item+'.csv'))
+
+            exist_name_set = set(exist_name)
+
+            print(len(exist_name_set))
+            print(len(data_name_set))
+            data_name_update = data_name_set.difference(exist_name_set)
+            print(len(data_name_update))
         else:
             pass
 
     if MPI:
-        data_name_run = data_name[start:end]
+        data_name_run = data_name_update[start:end]
         future_objs = []
         num = len(data_name_run)
         for i in range(num):
@@ -258,9 +301,8 @@ def main():
         wait(future_object)
 
     else:
-        data_name_list = data_name[start:end]
-        params = [data_name_list, data_save_path]
-        task(params)
+        data_name_list = data_name_update[start:end]
+        task(data_name_list,data_save_path)
 
 
 if __name__ == '__main__':
