@@ -9,10 +9,10 @@
 Relative Unconstrained Least Squares Importance Fitting algorithm
 """
 
-from kernels import Estimator
-from kernels import Vector
-from kernels import Matrix
-from kernels import GaussianKernel
+from src.kernels import Estimator
+from src.kernels import Vector
+from src.kernels import Matrix
+from src.kernels import GaussianKernel
 from scipy import linalg
 import numpy as numpy
 

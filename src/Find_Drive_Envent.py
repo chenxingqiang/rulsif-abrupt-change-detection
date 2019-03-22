@@ -1,6 +1,6 @@
 import pandas as pd 
 import os
-from config import data_check_path,data_prod_path,root_dir
+from src.config import data_check_path,data_prod_path,root_dir
 
 
 def find_file_dirs(file_dir):

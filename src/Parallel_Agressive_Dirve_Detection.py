@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 import os, argparse, sys
 from collections import Counter
-from rulsif import RULSIF
-from config import data_check_path,data_prod_path,settings,before_Times,n
+from src.rulsif import RULSIF
+from src.config import data_check_path,data_prod_path,settings,before_Times,n
 
 from concurrent.futures import ThreadPoolExecutor, wait
 _executor_pool = ThreadPoolExecutor(max_workers=32)

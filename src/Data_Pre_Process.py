@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-from config import data_path,data_check_path,data_name
+from src.config import data_path,data_check_path,data_name
 
 
 def Less_Than(seq):
