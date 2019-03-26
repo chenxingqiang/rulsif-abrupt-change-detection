@@ -1,7 +1,9 @@
-import pandas as pd 
 import os
-from src.config import data_check_path,data_prod_path,\
-	root_dir,event_length,n
+
+import pandas as pd
+
+from src.config import data_check_path, data_prod_path, \
+	root_dir, event_length, n
 
 
 def find_file_dirs(file_dir):
@@ -30,8 +32,9 @@ def find_csv_file(csv_path,dotname='csv'):
 			if file.split('.')[-1] == dotname:
 				L.append(os.path.join(root, file))
 	if len(L) != 4:
+		print('FILE is NOT Enough!!' * 12)
 		return False,sorted(L)
-	elif len(L) == 4:
+	elif len(L) >= 4:
 		return True,sorted(L)
 
 
@@ -88,7 +91,8 @@ def data_prepare(name_app):
 				data['divergence_score'] = data['divergence_score'].astype(float)
 
 				data.columns = ['Time', 'divergence_score_' + str(feature_name_app)]
-				data['divergence_score_'+str(feature_name_app)] = data['divergence_score_'+str(feature_name_app)]*(-1000)
+				data['divergence_score_' + str(feature_name_app)] = data['divergence_score_' + str(
+					feature_name_app)].abs() * 1000
 				
 				if count_flag == 0:
 					data_app = data
