@@ -86,7 +86,7 @@ def preprocess(data_name):
                                     4) + '_scpindex_' + str(sep_list[i - 1] + scp[j]) + '.csv'))
 
                         else:
-                            print('seq is less length at starting')
+                            print('seq is less length at starting:  ', scp[j])
                             data.iloc[sep_list[i - 1] + scp[j - 1]:sep_list[i - 1] + scp[j], :].to_csv(os.path.join(
                                 save_path, 'LessLength_' + name.strip('.csv') + '_' + str(i).zfill(
                                     4) + '_scpindex_' + str(sep_list[i - 1] + scp[j]) + '.csv'))
@@ -95,7 +95,7 @@ def preprocess(data_name):
                 if Less_Than(list(seq)):
                     data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(os.path.join(
                         save_path , 'LessLength' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv'))
-                    print('LessLength!! {} '.format(i))
+                    print('LessLength!! {0}  '.format(i))
                 else:
                     data.iloc[sep_list[i - 1]:sep_list[i], :].to_csv(os.path.join(
                         save_path , 'LessLength_' + 'OrderError_' + name.strip('.csv') + '_' + str(i).zfill(4) + '.csv'))

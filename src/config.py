@@ -33,7 +33,7 @@ n = 150
 before_Times = 30
 
 # define event length
-event_length = 10000
+event_length = 1000
 
 # detection aggressive events settings
 first_time = True
@@ -42,6 +42,13 @@ start = 0
 end = 2   # in total there are 4490
 MPI = True
 restart = False
+
+# test for data checking
+test_debug = False
+if test_debug:
+    data_name = data_name[0:1]
+else:
+    pass
 
 
 def parse_arguments(argv):
