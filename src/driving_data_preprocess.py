@@ -1,6 +1,8 @@
-import pandas as pd
 import os
-from src.config import data_path,data_check_path,data_name
+
+import pandas as pd
+
+from src.config import data_path, data_check_path, data_name, n
 
 
 def Less_Than(seq):
@@ -23,7 +25,7 @@ def detectSeqChange(seq):
     scp = []
     for index, value in enumerate(seq[:-1]):
         if value != seq[index + 1] - 100:
-            scp.append(int(len(seq)) - int(index))
+            scp.append(int(index) + 1)
     return [0] + sorted(scp) + [len(seq)]
 
 
@@ -64,7 +66,7 @@ def preprocess(data_name):
         for i in range(1, len(sep_list)):
 
             seq = list(data.Time[sep_list[i - 1]:sep_list[i]].astype(int))
-            if len(seq) > 151:
+            if len(seq) > n + 1:
 
                 flag = Less_Than(seq)
                 if flag:
@@ -75,19 +77,19 @@ def preprocess(data_name):
                 if not flag:
                     scp = detectSeqChange(seq)
                     print('SCP:', scp)
-                    for i in range(1, len(scp)):
-                        print(scp[i - 1], scp[i])
-                        if scp[i] > 151:
+                    for j in range(1, len(scp)):
+                        print(scp[j - 1], scp[j])
+                        if scp[j] > n + 1:
                             print('SCP WORKING', scp)
-                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(os.path.join(
+                            data.iloc[sep_list[i - 1] + scp[j - 1]:sep_list[i - 1] + scp[j], :].to_csv(os.path.join(
                                 save_path , 'OrderRight_' + name.strip('.csv') + '_' + str(i).zfill(
-                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv'))
+                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[j]) + '.csv'))
 
                         else:
                             print('seq is less length at starting')
-                            data.iloc[sep_list[i - 1] + scp[i - 1]:sep_list[i - 1] + scp[i], :].to_csv(os.path.join(
+                            data.iloc[sep_list[i - 1] + scp[j - 1]:sep_list[i - 1] + scp[j], :].to_csv(os.path.join(
                                 save_path, 'LessLength_' + name.strip('.csv') + '_' + str(i).zfill(
-                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[i]) + '.csv'))
+                                    4) + '_scpindex_' + str(sep_list[i - 1] + scp[j]) + '.csv'))
 
             else:
                 if Less_Than(list(seq)):

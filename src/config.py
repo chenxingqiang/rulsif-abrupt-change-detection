@@ -1,5 +1,5 @@
-
-import os,argparse
+import argparse
+import os
 
 root_dir = '/Users/xingqiangchen/Desktop/2019-02-22/'
 
@@ -41,7 +41,7 @@ first_time = False
 start = 0
 end = 2   # in total there are 4490
 MPI = True
-restart = True
+restart = False
 
 
 def parse_arguments(argv):
