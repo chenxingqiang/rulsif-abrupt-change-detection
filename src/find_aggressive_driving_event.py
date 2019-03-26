@@ -8,9 +8,9 @@ from src.config import data_check_path, data_prod_path, \
 
 def find_file_dirs(file_dir):
     """
-	:param file_dir:
-	:return:
-	"""
+    :param file_dir:
+    :return:
+    """
     dirs_list = []
     paths = os.listdir(file_dir)
 
@@ -22,10 +22,10 @@ def find_file_dirs(file_dir):
 
 def find_csv_file(csv_path, dotname='csv'):
     """
-	:param csv_path:
-	:param dotname:
-	:return:
-	"""
+    :param csv_path:
+    :param dotname:
+    :return:
+    """
     L = []
     for root, dirs, files in os.walk(csv_path):
         for file in files:
@@ -38,11 +38,10 @@ def find_csv_file(csv_path, dotname='csv'):
         return True, sorted(L)
 
 
-def init_path(event_length):
+def init_path():
     """
-	:param event_length:
-	:return:
-	"""
+    :return:
+    """
     print(data_prod_path)
     print(data_check_path)
 
@@ -56,11 +55,9 @@ def init_path(event_length):
 
 def data_prepare(name_app):
     """
-	:param name_app:
-	:param event_length:
-	:return:
-	"""
-
+    :param name_app:
+    :return:
+    """
     # define name parameters
     data_feature_list = ['Acceleration', 'Velocity', 'Steering_Wheel_Angle', 'Yaw_Rate']
     alpha_name = ['alpha', '0.5']
@@ -128,9 +125,9 @@ def data_prepare(name_app):
 
 def find_top5(data_result):
     """
-	:param data_result:
-	:return:
-	"""
+    :param data_result:
+    :return:
+    """
     assert len(data_result) >= event_length
 
     data_result = data_result.sort_values(by=['ds_total'], ascending=False)
@@ -148,10 +145,10 @@ def find_top5(data_result):
 
 def save_event(data, name_app):
     """
-	:param data:
-	:param name_app:
-	:return:
-	"""
+    :param data:
+    :param name_app:
+    :return:
+    """
     data_re = data[data.is_acp == 1]
     events_index = [[int(x) - (n - 1), int(x) + 1] for x in list(data_re.index)]
     event_df = pd.DataFrame(events_index)
@@ -163,9 +160,9 @@ def save_event(data, name_app):
 
 def find_event():
     """
-	:return:
-	"""
-    name_app = init_path(event_length=event_length)
+    :return:
+    """
+    name_app = init_path()
     data_prepare(name_app)
 
 
