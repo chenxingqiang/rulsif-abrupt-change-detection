@@ -36,7 +36,7 @@ before_Times = 30
 event_length = 10000
 
 # detection aggressive events settings
-first_time = False
+first_time = True
 
 start = 0
 end = 2   # in total there are 4490
