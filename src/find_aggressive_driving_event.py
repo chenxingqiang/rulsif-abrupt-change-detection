@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 from src.config import data_check_path, data_prod_path, \
-	root_dir, event_length, n
+    root_dir, event_length, n
 
 
 def find_file_dirs(file_dir):
@@ -138,7 +138,7 @@ def find_top5(data_result):
 	top5 = int(0.05*len(data_result))
 	print('Event Length {0} Top 5 index is {1} ,and real data length of estimating is {2} '.format(event_length,top5,len(data_result)))
 
-	top5_ds = data_result.iloc[top5, -2]
+    top5_ds = data_result.iloc[top5, -1]
 	print('top5 divergence_score ', top5_ds)
 
 	return top5_ds
