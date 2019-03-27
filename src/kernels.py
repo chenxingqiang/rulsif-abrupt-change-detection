@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# -*- c-file-style: " sources " -*-
-#
 # Use and distribution of this software and its source code is governed
 # by the terms and conditions defined in the "LICENSE" file that is part
 # of this source code package.

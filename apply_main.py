@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Create Time    : 2019-03-27 12:33
+# @Author  : Xingqiang Chen
+# @Software: PyCharm
+
 from src.config import first_time, only_evaluation
 from src.driving_data_preprocess import apply_preprocess
 from src.find_aggressive_driving_event import find_event

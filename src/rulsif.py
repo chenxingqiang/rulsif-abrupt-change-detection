@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- c-file-style: "sources" -*-
-#
+
 # Use and distribution of this software and its source code is governed
 # by the terms and conditions defined in the "LICENSE" file that is part
 # of this source code package.
@@ -9,12 +7,13 @@
 Relative Unconstrained Least Squares Importance Fitting algorithm
 """
 
-from src.kernels import Estimator
-from src.kernels import Vector
-from src.kernels import Matrix
-from src.kernels import GaussianKernel
-from scipy import linalg
 import numpy as numpy
+from scipy import linalg
+
+from src.kernels import Estimator
+from src.kernels import GaussianKernel
+from src.kernels import Matrix
+from src.kernels import Vector
 
 
 class AlphaRelativeDensityRatioEstimator(Estimator):
