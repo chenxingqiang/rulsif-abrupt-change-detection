@@ -37,6 +37,10 @@ event_length = 1000
 
 # detection aggressive events settings
 first_time = False
+only_evaluation = True
+
+# define feature name parameters
+data_feature_list = ['Acceleration', 'Velocity', 'Yaw_Rate']
 
 start = 0
 end = 2  # in total there are 4471

@@ -38,7 +38,7 @@ def preprocess(data_name):
         data = pd.read_csv(os.path.join(data_path,name), index_col=None, low_memory=False)
         print("Driving Car ID Set:", set(data.ID))
         data = data.reset_index().drop(['index'], axis=1)
-        data.columns = ['Car_ID', 'Time', 'Car_Orientation', 'Pitch_Rate', 'Roll_Rate', 'Acceleration', 'Velocity',
+        data.columns = ['Car_ID', 'Time', 'Pitch_Rate', 'Roll_Rate', 'Acceleration', 'Car_Orientation', 'Velocity',
                         'Steering_Wheel_Angle', 'Yaw_Rate']
         print(len(data[data.Time == 0]))
 

@@ -1,12 +1,14 @@
-import pandas as pd
-import numpy as np
-import os, argparse, sys
+import os
 from collections import Counter
-from src.rulsif import RULSIF
-from src.config import data_check_path,data_prod_path,\
-    settings,before_Times,n,MPI,restart,start,end
-
 from concurrent.futures import ThreadPoolExecutor, wait
+
+import numpy as np
+import pandas as pd
+
+from src.config import data_check_path, data_prod_path, \
+    settings, before_Times, n, MPI, restart, start, end, data_feature_list
+from src.rulsif import RULSIF
+
 _executor_pool = ThreadPoolExecutor(max_workers=32)
 
 
@@ -45,22 +47,22 @@ def condition_time_series(condition, before_Times, feature_name):
 
     before_data = pd.DataFrame()
 
-    for i in range(1, len(Times[0:-(before_Times)]) + 1):
-        before = con_day_n[con_day_n.columns[-(before_Times) - i: - i]]
+    for i in range(1, len(Times[0:-before_Times]) + 1):
+        before = con_day_n[con_day_n.columns[-before_Times - i: - i]]
         before.columns = Before_con_cols[0:before_Times]
         before_title = con_day_n['Car_ID']
         before_end = pd.concat([before_title, before], axis=1)
-        before_end.insert(1, 'Time', Times[-(before_Times) - i])
+        before_end.insert(1, 'Time', Times[-before_Times - i])
 
         # drop duplicates
         before_end = before_end.drop_duplicates()
         before_data = pd.concat([before_data, before_end], axis=0)
 
-    before_last = con_day_n[con_day_n.columns[-(before_Times):]]
+    before_last = con_day_n[con_day_n.columns[-before_Times:]]
     before_last.columns = Before_con_cols[0:before_Times]
 
     before_last.insert(0, 'Car_ID', before_data.iloc[1, 0])
-    before_last.insert(1, 'Time', Times[-(before_Times)])
+    before_last.insert(1, 'Time', Times[-before_Times])
 
     before_data = before_data.append(before_last)
 
@@ -87,7 +89,7 @@ class task(object):
         :return:
         """
 
-        for feature_name in ['Acceleration', 'Velocity', 'Steering_Wheel_Angle', 'Yaw_Rate']:
+        for feature_name in data_feature_list:
             condition = data[['Car_ID', 'Time', feature_name]]
             Hankel_Seq = condition_time_series(condition, before_Times, feature_name)
             car_ID = str(int(Hankel_Seq.Car_ID[0]))
@@ -148,8 +150,7 @@ class task(object):
                 os.makedirs(save_path)
 
             data = pd.read_csv(name, low_memory=False).iloc[:, 1:]
-            data.columns = ['Car_ID', 'Time', 'Car_Orientation',
-                            'Pitch_Rate', 'Roll_Rate', 'Acceleration',
+            data.columns = ['Car_ID', 'Time', 'Pitch_Rate', 'Roll_Rate', 'Acceleration', 'Car_Orientation',
                             'Velocity', 'Steering_Wheel_Angle', 'Yaw_Rate']
 
             print("Driving Car ID Set:", set(data.Car_ID))

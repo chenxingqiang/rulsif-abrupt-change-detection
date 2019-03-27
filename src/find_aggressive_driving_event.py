@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 from src.config import data_check_path, data_prod_path, \
-    root_dir, event_length, n
+    root_dir, event_length, n, data_feature_list
 
 
 def find_file_dirs(file_dir):
@@ -20,7 +20,7 @@ def find_file_dirs(file_dir):
     return dirs_list
 
 
-def find_csv_file(csv_path, dotname='csv'):
+def find_csv_file(csv_path, lenght_feature, dotname='csv'):
     """
     :param csv_path:
     :param dotname:
@@ -31,10 +31,10 @@ def find_csv_file(csv_path, dotname='csv'):
         for file in files:
             if file.split('.')[-1] == dotname:
                 L.append(os.path.join(root, file))
-    if len(L) != 4:
+    if len(L) < lenght_feature:
         print('FILE is NOT Enough!!' * 12)
         return False, sorted(L)
-    elif len(L) >= 4:
+    elif len(L) >= lenght_feature:
         return True, sorted(L)
 
 
@@ -58,8 +58,8 @@ def data_prepare(name_app):
     :param name_app:
     :return:
     """
-    # define name parameters
-    data_feature_list = ['Acceleration', 'Velocity', 'Steering_Wheel_Angle', 'Yaw_Rate']
+
+    length_feature = len(data_feature_list)
     alpha_name = ['alpha', '0.5']
     lambda_name = ['lambda', '1.5']
 
@@ -67,14 +67,14 @@ def data_prepare(name_app):
     data_results = pd.DataFrame()
 
     for dir_name in dirs_list:
-        state_flag, csv_file_path = find_csv_file(dir_name)
+        state_flag, csv_file_path = find_csv_file(dir_name, length_feature)
         print(len(csv_file_path))
 
         if state_flag:
             csv_file_path = [x for x in csv_file_path if x.split('/')[-1].split('_')[-3] == alpha_name[-1]]
             print(csv_file_path)
 
-            assert len(csv_file_path) == len(data_feature_list)
+            assert len(csv_file_path) >= len(data_feature_list)
 
             count_flag = 0
             data_app = pd.DataFrame()
@@ -83,7 +83,6 @@ def data_prepare(name_app):
                 Car_ID = data_path.split('.')[0].split('/')[-1].split('_')[0]
                 data = pd.read_csv(data_path).iloc[:, 1:]
                 data = data.replace('NOT_FULFILLMENT', 0.0)
-                data = data.replace('NOT_FULLFILLMENT', 0.0)
 
                 data['divergence_score'] = data['divergence_score'].astype(float)
 
@@ -103,8 +102,7 @@ def data_prepare(name_app):
             data_result = pd.merge(data_orig, data_app, on=['Time'], how='left')
             # standard of acd
 
-            data_result['ds_total'] = data_result['divergence_score_Acc'] + data_result['divergence_score_Yaw'] + \
-                                      data_result['divergence_score_Vel'] + data_result['divergence_score_Ste']
+            data_result['ds_total'] = data_result[['divergence_score_' + x[0:3] for x in data_feature_list]].sum(1)
 
             data_results = data_results.append(data_result)
 
@@ -136,8 +134,7 @@ def find_top5(data_result):
     top5 = int(0.05 * len(data_result))
     print('Event Length {0} Top 5 index is {1} ,and real data length of estimating is {2} '.format(event_length, top5,
                                                                                                    len(data_result)))
-
-    top5_ds = data_result.iloc[top5, -1]
+    top5_ds = data_result.ds_total.values[top5]
     print('top5 divergence_score ', top5_ds)
 
     return top5_ds

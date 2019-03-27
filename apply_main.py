@@ -1,4 +1,4 @@
-from src.config import first_time
+from src.config import first_time, only_evaluation
 from src.driving_data_preprocess import apply_preprocess
 from src.find_aggressive_driving_event import find_event
 from src.parallel_aggressive_driving_detection import apply_detection
@@ -7,11 +7,18 @@ from src.parallel_aggressive_driving_detection import apply_detection
 def main():
 
     if first_time:
+        print("!! RUNNING FOR FIRST TIME, DO DATA PREPROCESS ")
         apply_preprocess()
     else:
+        print("!! SKIP DATA PREPROCESS ")
+        pass
+    if not only_evaluation:
+        print("!! RUNNING FOR ABRUPT-CHANGE DETECTION")
+        apply_detection()
+    else:
+        print("!! ONLY EVALUATION AND FIND EVENTS STATE ")
         pass
 
-    apply_detection()
     find_event()
 
 
