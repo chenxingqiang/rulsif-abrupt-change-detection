@@ -82,7 +82,6 @@ class task(object):
     def __init__(self, data_name_list):
         """
         :param data_name_list:
-        :param data_check_path:
         """
         self.data_name_list = data_name_list
         self.data_prod_path = data_prod_path
@@ -131,8 +130,6 @@ class task(object):
 
             if a > 1 or b > 1:
                 divergence_score = calculate_divergence_score(Y_ref, Y_tes, settings)
-                # print('Car ID: ',car_ID,'  ','Feature Name: ',feature_name,'::',
-                # 'Test Time Interval:',Hankel_Seq.iloc[i+1,1],Hankel_Seq.iloc[i+n,1])
                 result.append([Hankel_Seq.iloc[i + n, 1], divergence_score])
             else:
                 print('TEST NOT OK: ', 'Car ID: ', car_ID, '  ', 'Feature Name: ', feature_name, '::',

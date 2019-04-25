@@ -48,7 +48,7 @@ only_evaluation = True
 data_feature_list = ['Acceleration', 'Velocity', 'Yaw_Rate']
 
 start = 0
-end = 2  # in total there are 4471
+end = 20  # in total there are 4471
 MPI = True
 restart = False
 

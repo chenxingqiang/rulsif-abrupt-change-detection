@@ -4,7 +4,6 @@
 # @Software: PyCharm
 
 import os
-
 import pandas as pd
 
 from src.config import data_check_path, data_prod_path, \

@@ -12,16 +12,16 @@ from src.parallel_aggressive_driving_detection import apply_detection
 def main():
 
     if first_time:
-        print("!! RUNNING FOR FIRST TIME, DO DATA PREPROCESS ")
+        print("!! RUNNING FOR FIRST TIME, DO DATA PREPROCESS>>>>>")
         apply_preprocess()
     else:
-        print("!! SKIP DATA PREPROCESS ")
+        print("!! SKIP DATA PREPROCESS>>>>>> ")
         pass
     if not only_evaluation:
-        print("!! RUNNING FOR ABRUPT-CHANGE DETECTION")
+        print("!! RUNNING FOR ABRUPT-CHANGE DETECTION>>>>>>>>")
         apply_detection()
     else:
-        print("!! ONLY EVALUATION AND FIND EVENTS STATE ")
+        print("!! ONLY EVALUATION AND FIND EVENTS STATE>>>>>>>>> ")
         pass
 
     find_event()
