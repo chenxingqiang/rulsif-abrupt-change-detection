@@ -1,0 +1,29 @@
+# Include README and LICENSE
+include README.md
+include LICENSE
+include requirements.txt
+include requirements-dev.txt
+
+# Include package data
+recursive-include anomaly_detection *.py
+recursive-include tests *.py
+
+# Include examples
+recursive-include examples *.py
+
+# Include documentation
+recursive-include docs *.md *.rst *.txt
+
+# Exclude unnecessary files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude *.so
+global-exclude .DS_Store
+global-exclude .git*
+global-exclude .vscode
+global-exclude .idea
+global-exclude *.egg-info
+global-exclude dist
+global-exclude build
