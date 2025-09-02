@@ -66,15 +66,15 @@ class GaussianKernel(BaseKernel):
         
         Parameters
         ----------
-        X : np.ndarray of shape (n_features, n_samples_X)
+        X : np.ndarray of shape (n_samples_X, n_features)
             First set of samples.
             
-        Y : np.ndarray of shape (n_features, n_samples_Y)
+        Y : np.ndarray of shape (n_samples_Y, n_features)
             Second set of samples.
             
         Returns
         -------
-        np.ndarray of shape (n_samples_Y, n_samples_X)
+        np.ndarray of shape (n_samples_X, n_samples_Y)
             Gaussian kernel matrix.
         """
         if X.ndim == 1:
@@ -82,13 +82,17 @@ class GaussianKernel(BaseKernel):
         if Y.ndim == 1:
             Y = Y.reshape(-1, 1)
         
+        # Ensure X and Y are in (n_samples, n_features) format
+        if X.shape[1] != Y.shape[1]:
+            raise ValueError(f"X and Y must have the same number of features. Got {X.shape[1]} and {Y.shape[1]}")
+        
         # Compute squared distances efficiently
-        X_norm = np.sum(X ** 2, axis=0, keepdims=True)
-        Y_norm = np.sum(Y ** 2, axis=0, keepdims=True)
+        # ||x - y||^2 = ||x||^2 + ||y||^2 - 2 * x * y^T
+        X_norm = np.sum(X ** 2, axis=1, keepdims=True)  # (n_samples_X, 1)
+        Y_norm = np.sum(Y ** 2, axis=1, keepdims=True)  # (n_samples_Y, 1)
         
         # K(x, y) = exp(-||x - y||^2 / (2 * sigma^2))
-        # ||x - y||^2 = ||x||^2 + ||y||^2 - 2 * x^T * y
-        distances = X_norm.T + Y_norm - 2 * np.dot(X.T, Y)
+        distances = X_norm + Y_norm.T - 2 * np.dot(X, Y.T)
         
         # Apply Gaussian function
         kernel_matrix = np.exp(-distances / (2 * self.sigma ** 2))
@@ -112,15 +116,15 @@ class LinearKernel(BaseKernel):
         
         Parameters
         ----------
-        X : np.ndarray of shape (n_features, n_samples_X)
+        X : np.ndarray of shape (n_samples_X, n_features)
             First set of samples.
             
-        Y : np.ndarray of shape (n_features, n_samples_Y)
+        Y : np.ndarray of shape (n_samples_Y, n_features)
             Second set of samples.
             
         Returns
         -------
-        np.ndarray of shape (n_samples_Y, n_samples_X)
+        np.ndarray of shape (n_samples_X, n_samples_Y)
             Linear kernel matrix.
         """
         if X.ndim == 1:
@@ -128,8 +132,8 @@ class LinearKernel(BaseKernel):
         if Y.ndim == 1:
             Y = Y.reshape(-1, 1)
         
-        # K(x, y) = x^T * y
-        kernel_matrix = np.dot(X.T, Y)
+        # K(x, y) = x * y^T
+        kernel_matrix = np.dot(X, Y.T)
         
         return kernel_matrix
     

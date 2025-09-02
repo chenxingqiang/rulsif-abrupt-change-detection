@@ -102,10 +102,9 @@ class RULSIFDetector(UnsupervisedAnomalyDetector):
     
     def _fit(self, X: np.ndarray, **kwargs) -> 'RULSIFDetector':
         """
-        Internal fitting method for RULSIF.
+        Internal fitting method required by the base class.
         
-        This method expects X to be a 2D array where each row represents
-        a time point and each column represents a feature.
+        This method is called by the parent class fit method.
         """
         # For RULSIF, we need both reference and test data
         # If only X is provided, we'll split it into reference and test
@@ -139,6 +138,33 @@ class RULSIFDetector(UnsupervisedAnomalyDetector):
             print(f"Optimal lambda: {self.lambda_:.4f}")
         
         return self
+    
+    def fit(self, X: np.ndarray, y: Optional[np.ndarray] = None, **kwargs) -> 'RULSIFDetector':
+        """
+        Fit the RULSIF detector to the data.
+        
+        Parameters
+        ----------
+        X : np.ndarray
+            Training data. For RULSIF, this can be either:
+            - The combined data (will be split into reference and test)
+            - Ignored if reference_data and test_data are provided in kwargs
+            
+        y : np.ndarray, optional
+            Ignored (kept for compatibility with base class)
+            
+        **kwargs : dict
+            Additional parameters including:
+            - reference_data: Reference period data
+            - test_data: Test period data
+            
+        Returns
+        -------
+        self : RULSIFDetector
+            The fitted detector instance
+        """
+        # Call parent class fit method which will call our _fit method
+        return super().fit(X, y, **kwargs)
     
     def predict(self, X: np.ndarray) -> np.ndarray:
         """

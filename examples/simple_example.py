@@ -59,7 +59,7 @@ def main():
     
     # Fit the detector
     print("Fitting RULSIF detector...")
-    detector.fit(reference_data=reference_data, test_data=test_data)
+    detector.fit(normal_data, reference_data=reference_data, test_data=test_data)
     
     print(f"Optimal sigma: {detector.sigma_:.4f}")
     print(f"Optimal lambda: {detector.lambda_:.4f}")
