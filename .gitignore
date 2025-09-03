@@ -1,0 +1,486 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Anomaly Detection Project Specific
+# Generated data files
+examples/synthetic_driving_data/
+examples/original_format_data/
+*.csv
+*.json
+*.pkl
+*.h5
+*.hdf5
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.onnx
+
+# Logs
+logs/
+*.log
+*.out
+
+# Configuration files with sensitive data
+config.ini
+.env
+secrets.json
+credentials.json
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large data files
+*.csv.gz
+*.parquet
+*.feather
+*.arrow
+
+# Jupyter notebook outputs
+examples/*.ipynb
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation builds
+docs/_build/
+docs/build/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache directories
+.cache/
+cache/
+
+# Profiling data
+*.prof
+*.lprof
+
+# Memory dumps
+*.dump
+*.dmp
+
+# System files
+.fuse_hidden*
+.nfs*
+
+# Network and security
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Backup and archive
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.swp
+*.tmp
+*.temp
+
+# Large binary files
+*.bin
+*.dat
+*.raw
+*.img
+*.iso
+
+# Machine learning specific
+*.joblib
+*.pickle
+*.pkl
+*.h5
+*.hdf5
+*.pb
+*.onnx
+*.tflite
+*.mlmodel
+
+# Data science specific
+*.ipynb
+.ipynb_checkpoints/
+*.rdata
+*.rds
+*.sas7bdat
+*.dta
+*.spss
+
+# Cloud and deployment
+.aws/
+.gcp/
+.azure/
+docker-compose.override.yml
+.env.local
+.env.production
+
+# Monitoring and logging
+*.log.*
+logs/
+monitoring/
+metrics/
+
+# Performance and profiling
+*.prof
+*.lprof
+*.cprof
+*.gprof
+
+# Security and secrets
+secrets/
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+.env*
+!.env.example
+
+# Local development
+local/
+dev/
+development/
+staging/
+
+# Package managers
+node_modules/
+vendor/
+bower_components/
+
+# Build tools
+Makefile
+CMakeLists.txt
+*.cmake
+*.make
+
+# Documentation
+docs/_build/
+docs/build/
+site/
+
+# API documentation
+swagger/
+openapi/
+api-docs/
+
+# Database migrations
+migrations/
+*.sql
+*.db
+
+# Backup databases
+*.db.backup
+*.sqlite.backup
+
+# Local configuration
+config.local.py
+settings.local.py
+local_config.py
+
+# Test data
+test_data/
+test_files/
+*.test.csv
+*.test.json
+
+# Benchmark results
+benchmarks/
+*.bench
+*.perf
+
+# Model checkpoints
+checkpoints/
+*.ckpt
+*.checkpoint
+
+# Experiment tracking
+mlruns/
+wandb/
+tensorboard_logs/
+lightning_logs/
+
+# Jupyter extensions
+.jupyter/
+
+# Conda
+.conda/
+
+# Poetry
+poetry.lock
+
+# Pipenv
+Pipfile.lock
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Anomaly Detection Project Specific Exclusions
+# Keep these files in version control
+!examples/*.ipynb
+!examples/*.py
+!examples/*.md
+!examples/*.txt
+
+# Exclude generated data but keep structure
+examples/synthetic_driving_data/*
+!examples/synthetic_driving_data/.gitkeep
+examples/original_format_data/*
+!examples/original_format_data/.gitkeep
+
+# Keep example data generators
+!examples/*_generator.py
+!examples/*_example.py
