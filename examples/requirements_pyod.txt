@@ -1,0 +1,38 @@
+# PyOD Integration Requirements
+# Install with: pip install -r requirements_pyod.txt
+
+# Core PyOD library
+pyod>=1.0.0
+
+# Deep learning dependencies (for PyOD neural network algorithms)
+tensorflow>=2.4.0
+keras>=2.4.0
+
+# Alternative deep learning backend
+torch>=1.8.0
+
+# Data processing and visualization
+numpy>=1.19.0
+pandas>=1.1.0
+matplotlib>=3.3.0
+seaborn>=0.11.0
+
+# Machine learning utilities
+scikit-learn>=0.24.0
+scipy>=1.5.0
+
+# Optional: Jupyter for interactive examples
+jupyter>=1.0.0
+ipykernel>=5.0.0
+
+# Optional: Additional visualization
+plotly>=4.0.0
+bokeh>=2.0.0
+
+# Optional: Performance optimization
+numba>=0.50.0
+joblib>=1.0.0
+
+# Optional: Testing
+pytest>=6.0.0
+pytest-cov>=2.10.0
