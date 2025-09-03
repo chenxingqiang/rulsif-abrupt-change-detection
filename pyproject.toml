@@ -9,10 +9,10 @@ description = "A comprehensive Python library for anomaly detection including cl
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Xingqiang Chen", email = "your.email@example.com"}
+    {name = "Xingqiang Chen", email = "joy6677@qq.com"}
 ]
 maintainers = [
-    {name = "Xingqiang Chen", email = "your.email@example.com"}
+    {name = "Xingqiang Chen", email = "joy6677@qq.com"}
 ]
 keywords = ["anomaly detection", "outlier detection", "machine learning", "deep learning", "time series"]
 classifiers = [
@@ -64,10 +64,10 @@ full = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/awesome-anomaly-detection"
+Homepage = "https://github.com/chenxingqiang/awesome-anomaly-detection"
 Documentation = "https://awesome-anomaly-detection.readthedocs.io/"
-Repository = "https://github.com/yourusername/awesome-anomaly-detection"
-"Bug Tracker" = "https://github.com/yourusername/awesome-anomaly-detection/issues"
+Repository = "https://github.com/chenxingqiang/awesome-anomaly-detection"
+"Bug Tracker" = "https://github.com/chenxingqiang/awesome-anomaly-detection/issues"
 
 [tool.setuptools_scm]
 write_to = "anomaly_detection/_version.py"

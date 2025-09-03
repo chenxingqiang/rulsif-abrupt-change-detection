@@ -519,7 +519,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact & Support
 
 - **Author**: Xingqiang Chen
-- **Email**: your.email@example.com
+- **Email**: joy6677@qq.com
 - **GitHub**: [@chenxingqiang](https://github.com/chenxingqiang)
 - **Project**: [https://github.com/chenxingqiang/awesome-anomaly-detection](https://github.com/chenxingqiang/awesome-anomaly-detection)
 - **Issues**: [GitHub Issues](https://github.com/chenxingqiang/awesome-anomaly-detection/issues)

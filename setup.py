@@ -20,11 +20,11 @@ setup(
     name="awesome-anomaly-detection",
     version="0.1.0",
     author="Xingqiang Chen",
-    author_email="your.email@example.com",
+    author_email="joy6677@qq.com",
     description="A comprehensive Python library for anomaly detection including classical, deep learning, and time series methods",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/awesome-anomaly-detection",
+    url="https://github.com/chenxingqiang/awesome-anomaly-detection",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -53,8 +53,8 @@ setup(
     zip_safe=False,
     keywords="anomaly detection, outlier detection, machine learning, deep learning, time series",
     project_urls={
-        "Bug Reports": "https://github.com/yourusername/awesome-anomaly-detection/issues",
-        "Source": "https://github.com/yourusername/awesome-anomaly-detection",
+        "Bug Reports": "https://github.com/chenxingqiang/awesome-anomaly-detection/issues",
+        "Source": "https://github.com/chenxingqiang/awesome-anomaly-detection",
         "Documentation": "https://awesome-anomaly-detection.readthedocs.io/",
     },
 )

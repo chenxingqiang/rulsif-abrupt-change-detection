@@ -14,7 +14,7 @@ making it easy to compare and use different approaches for your specific use cas
 # Version info
 __version__ = "0.1.0"
 __author__ = "Xingqiang Chen"
-__email__ = "your.email@example.com"
+__email__ = "joy6677@qq.com"
 
 # Core imports
 try:
@@ -124,7 +124,7 @@ __package_info__ = {
     "description": "A comprehensive Python library for anomaly detection",
     "author": __author__,
     "email": __email__,
-    "url": "https://github.com/yourusername/awesome-anomaly-detection",
+    "url": "https://github.com/chenxingqiang/awesome-anomaly-detection",
     "license": "MIT",
     "python_requires": ">=3.7",
     "keywords": ["anomaly detection", "outlier detection", "machine learning", "deep learning", "time series"],
