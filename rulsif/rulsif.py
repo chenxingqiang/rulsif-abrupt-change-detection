@@ -10,10 +10,10 @@ Relative Unconstrained Least Squares Importance Fitting algorithm
 import numpy as numpy
 from scipy import linalg
 
-from src.kernels import Estimator
-from src.kernels import GaussianKernel
-from src.kernels import Matrix
-from src.kernels import Vector
+from rulsif.kernels import Estimator
+from rulsif.kernels import GaussianKernel
+from rulsif.kernels import Matrix
+from rulsif.kernels import Vector
 
 
 class AlphaRelativeDensityRatioEstimator(Estimator):

@@ -10,9 +10,9 @@ from concurrent.futures import ThreadPoolExecutor, wait
 import numpy as np
 import pandas as pd
 
-from src.config import data_check_path, data_prod_path, \
+from rulsif.config import data_check_path, data_prod_path, \
     settings, before_Times, n, MPI, restart, start, end, data_feature_list
-from src.rulsif import RULSIF
+from rulsif.rulsif import RULSIF
 
 _executor_pool = ThreadPoolExecutor(max_workers=32)
 

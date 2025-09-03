@@ -6,7 +6,7 @@
 import argparse
 import os
 
-root_dir = '/Users/xingqiangchen/Desktop/2019-02-22/'
+root_dir = './examples/original_format_data/'
 
 data_path = os.path.join(root_dir, 'data')
 data_check_path = os.path.join(root_dir,'data_check')

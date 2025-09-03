@@ -6,7 +6,7 @@
 import os
 import pandas as pd
 
-from src.config import data_check_path, data_prod_path, \
+from rulsif.config import data_check_path, data_prod_path, \
     root_dir, event_length, n, data_feature_list
 
 

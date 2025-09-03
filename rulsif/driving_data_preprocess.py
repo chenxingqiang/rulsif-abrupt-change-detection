@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 
-from src.config import data_path, data_check_path, data_name, n
+from rulsif.config import data_path, data_check_path, data_name, n
 
 
 def Less_Than(seq):
